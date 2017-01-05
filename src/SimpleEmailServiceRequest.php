@@ -109,6 +109,9 @@ final class SimpleEmailServiceRequest
 
 		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, ($this->ses->verifyHost() ? 2 : 0));
 		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, ($this->ses->verifyPeer() ? 1 : 0));
+		if(strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' && $this->ses->verifyPeer()){
+			curl_setopt($curl, CURLOPT_CAINFO, __DIR__ . '/cert/cacert.pem');
+		}
 		curl_setopt($curl, CURLOPT_HEADER, false);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, false);
 		curl_setopt($curl, CURLOPT_WRITEFUNCTION, array(&$this, '__responseWriteCallback'));
