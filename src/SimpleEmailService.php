@@ -81,6 +81,9 @@ class SimpleEmailService
 	// Controls CURLOPT_SSL_VERIFYPEER setting for SimpleEmailServiceRequest's curl handler
 	protected $__verifyPeer = true;
 
+	// errors detail
+	protected $__errors;
+
 	/**
 	* Constructor
 	*
@@ -478,22 +481,35 @@ class SimpleEmailService
 	public function __triggerError($functionname, $error)
 	{
 		if($error == false) {
-			trigger_error(sprintf("SimpleEmailService::%s(): Encountered an error, but no description given", $functionname), E_USER_WARNING);
+		    $this->__errors = sprintf("SimpleEmailService::%s(): Encountered an error, but no description given", $functionname);
+			trigger_error($this->__errors, E_USER_WARNING);
 		}
 		else if(isset($error['curl']) && $error['curl'])
 		{
-			trigger_error(sprintf("SimpleEmailService::%s(): %s %s", $functionname, $error['code'], $error['message']), E_USER_WARNING);
+            $this->__errors = sprintf("SimpleEmailService::%s(): %s %s", $functionname, $error['code'], $error['message']);
+			trigger_error($this->__errors, E_USER_WARNING);
 		}
 		else if(isset($error['Error']))
 		{
 			$e = $error['Error'];
-			$message = sprintf("SimpleEmailService::%s(): %s - %s: %s\nRequest Id: %s\n", $functionname, $e['Type'], $e['Code'], $e['Message'], $error['RequestId']);
-			trigger_error($message, E_USER_WARNING);
+            $this->__errors = sprintf("SimpleEmailService::%s(): %s - %s: %s\nRequest Id: %s\n", $functionname, $e['Type'], $e['Code'], $e['Message'], $error['RequestId']);
+			trigger_error($this->__errors, E_USER_WARNING);
 		}
 		else {
-			trigger_error(sprintf("SimpleEmailService::%s(): Encountered an error: %s", $functionname, $error), E_USER_WARNING);
+            $this->__errors = sprintf("SimpleEmailService::%s(): Encountered an error: %s", $functionname, $error);
+			trigger_error($this->__errors, E_USER_WARNING);
 		}
 	}
+
+    /**
+     * getErrors
+     * @author Hisune <hi@hisune.com>
+     * @return mixed
+     */
+	public function getErrors()
+    {
+        return $this->__errors;
+    }
 
 	/**
 	*
