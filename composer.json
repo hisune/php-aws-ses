@@ -1,8 +1,8 @@
 {
-    "name": "daniel-zahariev/php-aws-ses",
+    "name": "hisune/php-aws-ses",
     "description": "Send emails via Amazon Simple Email Service (SES) with REST-like interface",
     "keywords": ["amazon", "email","aws","ses", "api", "rest"],
-    "homepage": "https://github.com/daniel-zahariev/php-aws-ses",
+    "homepage": "https://github.com/hisune/php-aws-ses",
     "type": "library",
     "license": "BSD",
     "minimum-stability": "stable",
